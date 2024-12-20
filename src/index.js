@@ -50,3 +50,24 @@ server.get("/clients/:id", async (req, res) => {
   }
 });
 
+server.post("/clients", async (req, res) => {
+  const { name, lastname, email } = req.body;
+  if (!name) {
+    res.status(400).json({ message: "`name` is required" });
+  } else if (!lastname) {
+    res.status(400).json({ message: "`lastname` is required" });
+  } else if (!email) {
+    res.status(400).json({ message: "`email` is required" });
+  } else {
+    const connection = await getDBConnection();
+    const query = "INSERT INTO clients(name, lastname, email) VALUES (?, ?, ?)";
+    const [result] = await connection.query(query, [name, lastname, email]);
+    connection.end();
+    res.status(201).json({
+      id: result.insertId,
+      name,
+      lastname,
+      email,
+    });
+  }
+});
