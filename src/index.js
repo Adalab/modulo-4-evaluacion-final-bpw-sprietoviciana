@@ -49,3 +49,4 @@ server.get("/clients/:id", async (req, res) => {
     res.status(200).json(result[0]);
   }
 });
+
