@@ -91,3 +91,13 @@ server.put("/clients/:id", async (req, res) => {
     res.status(200).json({ id, name, lastname, email });
   }
 });
+
+
+server.delete("/clients/:id", async (req, res) => {
+  const id = parseInt(req.params.id);
+  const connection = await getDBConnection();
+  const query = "DELETE FROM clients WHERE id = ?";
+  await connection.query(query, [id]);
+  connection.end();
+  res.status(204).send();
+});
