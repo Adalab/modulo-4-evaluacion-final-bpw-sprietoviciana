@@ -38,7 +38,7 @@ server.get("/clients", async (req, res) => {
 });
 
 server.get("/clients/:id", async (req, res) => {
-  const id = req.params.id;
+  const id = parseInt(req.params.id);
   const connection = await getDBConnection();
   const query = "SELECT id, name, lastname, email FROM clients WHERE id = ?";
   const [result] = await connection.query(query, [id]);
@@ -69,5 +69,25 @@ server.post("/clients", async (req, res) => {
       lastname,
       email,
     });
+  }
+});
+
+server.put("/clients/:id", async (req, res) => {
+  const id = parseInt(req.params.id);
+  const { name, lastname, email } = req.body;
+  if (!name) {
+    res.status(400).json({ message: "`name` is required" });
+  } else if (!lastname) {
+    res.status(400).json({ message: "`lastname` is required" });
+  } else if (!email) {
+    res.status(400).json({ message: "`email` is required" });
+  } else {
+    // TODO: comprobar que el cliente existe
+    const connection = await getDBConnection();
+    const query =
+      "UPDATE clients SET name = ?, lastname = ?, email = ? WHERE id = ?";
+    await connection.query(query, [name, lastname, email, id]);
+    connection.end();
+    res.status(200).json({ id, name, lastname, email });
   }
 });
