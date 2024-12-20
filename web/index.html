@@ -5,11 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vet Clients Management</title>
-    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <h1>Clients Management</h1>
+    <section>
+        <h2>Add New Client</h2>
+        <input type="text" class="add-name" placeholder="Name">
+        <input type="text" class="add-lastname" placeholder="Last Name">
+        <input type="email" class="add-email" placeholder="Email">
+        <button onclick="addClient()">Add Client</button>
+    </section>
+
     <ul class="clients-list"></ul>
 
     <script src="main.js"></script>
