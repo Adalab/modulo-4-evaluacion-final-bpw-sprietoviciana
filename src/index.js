@@ -9,7 +9,6 @@ require("dotenv").config();
 server.use(cors());
 server.use(express.json());
 
-//para conectarte a la bd
 async function getDBConnection() {
   const connection = await mysql.createConnection({
     host: "localhost",
@@ -82,7 +81,6 @@ server.put("/clients/:id", async (req, res) => {
   } else if (!email) {
     res.status(400).json({ message: "`email` is required" });
   } else {
-    // TODO: comprobar que el cliente existe
     const connection = await getDBConnection();
     const query =
       "UPDATE clients SET name = ?, lastname = ?, email = ? WHERE id = ?";
@@ -91,7 +89,6 @@ server.put("/clients/:id", async (req, res) => {
     res.status(200).json({ id, name, lastname, email });
   }
 });
-
 
 server.delete("/clients/:id", async (req, res) => {
   const id = parseInt(req.params.id);
